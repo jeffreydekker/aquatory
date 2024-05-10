@@ -77,18 +77,38 @@ class UserController extends Controller
         }
     }
 
-    // public function showProfile(User $user) {
-    //     if(session() === NULL) {
-    //         return redirect('/');
-    //     }
-    //     return view('profile-posts', ['username' => $user->naam . " " . $user->achternaam, 'posts' => $user->posts()->latest()->get(), 'postCount' => $user->posts()->count()]);
-    // }
-
     public function profiel(User $user) {
+        // redirects to homepage of the app with the correct header
         if(session() === NULL) {
             return redirect('/');
         }
-        return view('table-user', ['username' => $user->naam . " " . $user->achternaam, 'registraties' => $user->registraties()->latest()->get(), 'posts' => $user->posts()->latest()->get()]);
+        return view('table-user', [
+            'username' => $user->naam . " " . $user->achternaam, 
+            'registraties' => Registratie::with('gebruiker')->paginate(5),
+            'posts' => $user->posts()->latest()->get()]);
+    }
+
+    public function showModPage(User $users, Options $options, Registratie $registraties) {
+        // oude manier van data fetchen:
+        // $users = User::with('registraties')->get();
+        // $registraties = Registratie::with('gebruiker')->paginate(5);
+        // $options = DB::table('options')->paginate(2);
+
+        if(session() === NULL) {
+            return redirect('/');
+        }
+        return view('/beheerder', [
+            //nieuwe manier van data fetchen:
+            'users' => User::with('registraties')->paginate(1),
+            'registraties' => Registratie::with('gebruiker')->paginate(5),
+            'options' => Options::paginate(5)
+
+            // oude manier van data fetchen
+            // 'users' => $users,
+            // 'options' => $options
+            // 'registraties' => $registraties,
+
+        ]);
     }
 
     public function logout() {
@@ -99,17 +119,6 @@ class UserController extends Controller
 
         auth()->logout();
         return redirect('/')->with('success','You are logged out');
-    }
-
-    public function showModPage(User $users, Options $options, Registratie $registraties) {
-        $users = User::with('registraties')->get();
-        $registraties = Registratie::with('gebruiker')->get();
-        $options = DB::table('options')->get();
-
-        if(session() === NULL) {
-            return redirect('/');
-        }
-        return view('/beheerder', ['users' => $users, 'options' => $options, 'registraties' => $registraties]);
     }
 
     public function showTableAll(User $user, Registratie $registraties) {

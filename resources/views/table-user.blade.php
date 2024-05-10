@@ -6,8 +6,8 @@
         <table class="table table-striped table-bordered table-hover">
           <thead class="thead-dark">
               <tr>
-                  <td><strong><em>Geslachtsnaam</em></strong></td>
-                  <td><strong><em>Soortnaam</em></strong></td>
+                  <td><strong><em>Geslacht</em></strong></td>
+                  <td><strong><em>Soort</em></strong></td>
                   <td><strong><em>Vangplaats</em></strong></td>
                   <td><strong><em>AS</em></strong></td>
                   <td><strong><em>KV</em></strong></td>
@@ -36,7 +36,10 @@
               @endcan
           </tr>
           @endforeach
+          {{ $registraties->links() }}
+          
     </table>
+    
   </div>
 
 

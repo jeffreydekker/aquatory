@@ -2,6 +2,8 @@
 {{-- ---------------------------------------------------------------- --}}
   {{-- Nieuwe gebruiker toevoegen --}}
   <div class="container py-md-5 container--narrow">
+    <h1>Beheerder pagina</h1>
+    <br><br>
     <strong>Nieuwe gebruiker toevoegen:</strong>
     <form action="/register" method="POST">
       @csrf
@@ -30,23 +32,6 @@
         @error('email')
         <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
         @enderror
-
-        {{-- <label for="password-register" class="text-muted mb-1"><small>Password</small></label>
-        <input name="password" id="password-register" class="form-control form-control-lg form-control-title" type="password"/>
-        @error('password')
-        <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
-        @enderror
-
-        <label for="password-register-confirm" class="text-muted mb-1"><small>Confirm Password</small></label> --}}
-        {{-- From the register function in the user controller we can confirm that 
-        the 2 password fields are the same by using "_confirmation" as the 
-        second field's name. Also make sure that the names match apart form the
-        _confirmation postfix --}}
-        {{-- <input name="password_confirmation" id="password-register-confirm" class="form-control form-control-lg form-control-title" type="password"/>
-        @error('password_confirmation')
-        <p class="m-0 small alert alert-danger shadow-sm">{{ $message }}</p>
-        @enderror
-      </div> --}}
       <br>
       <button type="submit" class="btn btn-primary">Opslaan</button>
     </form>
@@ -111,6 +96,7 @@
             <td> {{ $user->registraties->count() }}</td>
         </tr>
     @endforeach
+    {{ $users->links() }}
     </tr>
 </table>
 
@@ -137,6 +123,7 @@
           <td> {{ $option->vangplaats }}</td>
       </tr>
   @endforeach
+  {{ $options->links() }}
   </tr>
 </table>
 
@@ -165,6 +152,7 @@
           <td>{{ $registratie->KV }}</td>
       </tr>
   @endforeach
+  {{ $registraties->links() }}
   </tr>
 </table>
       

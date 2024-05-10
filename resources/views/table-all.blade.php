@@ -30,8 +30,8 @@
             <thead>
                 <tr>
                     <th onclick="sortTable(0)"><strong>Lidnummer</strong></th>
-                    <th onclick="sortTable(1)"><strong>Geslachtsnaam</strong></th>
-                    <th onclick="sortTable(2)"><strong>Soortnaam</strong></th>
+                    <th onclick="sortTable(1)"><strong>Geslacht</strong></th>
+                    <th onclick="sortTable(2)"><strong>Soort</strong></th>
                     <th onclick="sortTable(3)"><strong>Vangplaats</strong></th>
                     <th onclick="sortTable(4)"><strong>AS</strong></th>
                     <th onclick="sortTable(5)"><strong>KV</strong></th>
@@ -50,49 +50,8 @@
                     <td>{{ $registratie->notitie }}</td>
                 </tr>
             @endforeach
+            {{ $registraties->links() }}
         </table>
         <br>
-
-
-    {{-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-    <table id="myTable">
-        <tr>
-        <!--When a header is clicked, run the sortTable function, with a parameter, 0 for sorting by names, 1 for sorting by country:-->  
-            <th onclick="sortTable(0)">Name</th>
-            <th onclick="sortTable(1)">Country</th>
-        </tr>
-        <tr>
-            <td>Berglunds snabbkop</td>
-            <td>Sweden</td>
-        </tr>
-        <tr>
-            <td>North/South</td>
-            <td>UK</td>
-        </tr>
-        <tr>
-            <td>Alfreds Futterkiste</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>Koniglich Essen</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>Magazzini Alimentari Riuniti</td>
-            <td>Italy</td>
-        </tr>
-        <tr>
-            <td>Paris specialites</td>
-            <td>France</td>
-        </tr>
-        <tr>
-            <td>Island Trading</td>
-            <td>UK</td>
-        </tr>
-        <tr>
-            <td>Laughing Bacchus Winecellars</td>
-            <td>Canada</td>
-        </tr>
-    </table> --}}
 
 </x-layout>

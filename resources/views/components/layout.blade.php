@@ -31,14 +31,14 @@ auth directive to determine wether the user is logged in or not. --}}
             {{-- <a class="btn btn-sm btn-success mr-2" href="/create-post">Example project create post</a> --}}
             <a style="width: 120px" class="btn btn-sm btn-success mr-2" href="/profiel/{{ auth()->user()->lidnummer }}">Profiel</a>
             <a style="width: 120px" class="btn btn-sm btn-success mr-2" href="/visregistratie">Visregistratie</a>
-            <a style="width: 120px" class="btn btn-sm btn-success mr-2" href="/table-all">Alle registraties</a>
+            <a style="width: 120px" class="btn btn-sm btn-success mr-2" href="/table-all">Overzicht</a>
             @if (auth()->user()->isAdmin == 1)
             <a style="width: 120px"class="btn btn-sm btn-success mr-2" href="/beheerder">Beheerder</a>
             @endif
 
             <form action="/logout" method="POST" class="d-inline">
                 @csrf
-              <button style="width: 120px"class="btn btn-sm btn-secondary">Log uit</button>
+              <button style="width: 120px"class="btn btn-sm btn-secondary">log uit</button>
             </form>
           </div>
         @else
@@ -52,7 +52,7 @@ auth directive to determine wether the user is logged in or not. --}}
                   <input name="loginpassword" class="form-control form-control-sm input-dark" type="password" placeholder="Password" />
                 </div>
                 <div class="col-md-auto">
-                  <button class="btn btn-success btn-sm">Log in</button>
+                  <button class="btn btn-success btn-sm">log in</button>
                 </div>
                 <a href="/forgot-password" style="color: white">Wachtwoord vergeten</a>
               </div>

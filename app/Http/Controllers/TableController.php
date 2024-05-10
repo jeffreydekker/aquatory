@@ -16,14 +16,18 @@ class TableController extends Controller
         return view('visregistratie', ['all' => $all]);
     }
 
-    public function showTableAll(User $user, Registratie $registratie) {
-        $registraties = Registratie::with('gebruiker')->get();
-
-        return view('table-all', compact('registraties'));
+    public function showTableAll() {
+        // $registraties = Registratie::with('gebruiker')->get()->paginate();
+        return view('table-all', [
+            'registraties' => Registratie::with('gebruiker')->paginate(5)
+        ]);
     }
 
-    public function profiel(User $user) {
-        return view('table-user', ['username' => $user->username, 'registraties' => $user->registraties()->get()]);
+    public function profiel(User $user, Registratie $registratie) {
+        return view('table-user', [
+            'username' => $user->username, 
+            'registraties' => Registratie::with('gebruiker')->paginate(5)
+        ]);
     }
 
     // public function showTableUser(User $user) {
@@ -65,7 +69,7 @@ class TableController extends Controller
         // registers a blog post in the DB
         Registratie::create($incomingFields);
 
-        return redirect('/profiel', )->with('success','Registratie voltooid.');
+        return redirect('/profiel/' . auth()->user()->lidnummer)->with('success','Registratie voltooid.');
     }
 
     public function optiesOpslaan (Request $request) {
