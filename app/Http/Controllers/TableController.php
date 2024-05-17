@@ -16,10 +16,11 @@ class TableController extends Controller
         return view('visregistratie', ['all' => $all]);
     }
 
-    public function showTableAll() {
-        // $registraties = Registratie::with('gebruiker')->get()->paginate();
+    public function showTableAll(User $user, Registratie $registraties) {
+        $registraties = Registratie::with('gebruiker')->paginate(5);
+        
         return view('table-all', [
-            'registraties' => Registratie::with('gebruiker')->paginate(5)
+            'registraties' => $registraties
         ]);
     }
 
@@ -73,6 +74,7 @@ class TableController extends Controller
     }
 
     public function optiesOpslaan (Request $request) {
+
         $incomingFields = $request->validate([
             'geslachtsnaam' => ['nullable'],
             'soortnaam' => ['nullable'],
@@ -84,21 +86,40 @@ class TableController extends Controller
         return redirect('/beheerder')->with('success','Opties opgeslagen.');
     }
 
-    public function delete(Registratie $registratie ) {
+    public function deleteRegistratie(Registratie $registratie ) {
 
         if(auth()->user()->cannot('delete', $registratie)) {
             return 'You cannot do that..';
         }
 
         $registratie->delete();
-        return redirect('/profiel/' . auth()->user()->lidnummer)->with('success', 'Deleted');
+        return redirect('/profiel/' . auth()->user()->lidnummer)->with('success', 'Verwijderd.');
     }
 
-    // public function deleteFromTableAll(Registratie $registratie ) {
-    //     if(auth()->user()->cannot('delete', $registratie)) {
-    //         return 'You cannot do that and I know your IP adress :)';
-    //     }
-    //     $registratie->delete();
-    //     return redirect('/table-all')->with('success', 'Verwijderd');
-    // }
+    public function deleteUser(User $user) {
+        // $user = User::where('id', $id);
+        $user->delete();
+
+        return redirect('/beheerder')->with('success', 'Gebruiker verwijderd.');
+    }
+
+    public function importCSV()
+    {
+        // Read the CSV file
+        $csvData = array_map('str_getcsv', file('data.csv'));
+
+        // Remove header row if exists
+        array_shift($csvData);
+
+        // Iterate through each row and insert into database
+        foreach ($csvData as $row) {
+            Options::create([
+                'geslachtsnaam' => $row[0], // adjust column indexes according to your CSV structure
+                'soortnaam' => $row[0],
+                // Add more columns as needed
+            ]);
+        }
+
+        return "CSV data imported successfully!";
+    }
 }

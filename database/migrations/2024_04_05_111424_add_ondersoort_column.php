@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('options', function($table) {
-            $table->string('ondersoort');
+            $table->string('ondersoort')->nullable();
         });
     }
 

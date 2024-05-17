@@ -75,31 +75,44 @@
   <br><br><br>
 
   {{-- Lijst gebruikers: --}}
-  <table class="table table-striped table-bordered table-hover">
+  <table class="table table-striped table-bordered table-hover" id="tableAll">
     <strong>Lijst van gebruikers:</strong>
     <br><br>
-    <thead class="thead-dark">
+    <thead>
         <tr>
             {{-- <td><strong>Naam</strong></td> --}}
+            <td><strong>Aangemaakt</strong></td>
             <td><strong>Lidnummer</strong></td>
             <td><strong>Email</strong></td>
             <td><strong>Volledige naam</strong></td>
             <td><strong>Registraties</strong></td>
+            <td><strong><em>Verwijderen</em></strong></td>
         </tr>
     </thead>
     <tr>
         @foreach ($users as $user)
         <tr>
-            <td> {{ $user->lidnummer }}</td>
-            <td> {{ $user->email }}</td>
-            <td> {{ $user->naam . " " . $user->achternaam}}</td>
-            <td> {{ $user->registraties->count() }}</td>
+          <td> {{ $user->created_at->format('j-n-Y') }}</td>
+          <td> <a href="mailto:{{ $user->email }}">{{ $user->lidnummer }}</a></td>
+          <td> {{ $user->email }}</td>
+          <td> {{ $user->naam . " " . $user->achternaam}}</td>
+          <td> {{ $user->registraties->count() }}</td>
+          {{-- @can('delete', $user) --}}
+          <td style="text-align:center; vertical-align:middle">            
+              <form class="delete-post-form d-inline" action="/profiel/{{ $user->id }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Verwijderen"><i style="color:red" class="fas fa-trash"></i></button>
+              </form>
+            </td>
+            {{-- @endcan --}}
         </tr>
     @endforeach
     {{ $users->links() }}
     </tr>
 </table>
 
+  {{-- Send email to all users --}}
   <a href="mailto:@foreach ($users as $user)
   {{ $user->email }},@endforeach">Bulk email</a>
   <br><br>
@@ -139,6 +152,7 @@
           <td><strong>Vangplaats</strong></td>
           <td><strong>AS</strong></td>
           <td><strong>KV</strong></td>
+          <td><strong>Verwijderen</strong></td>
       </tr>
   </thead>
   <tr>

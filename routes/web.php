@@ -31,13 +31,17 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // Profile related routes:
     Route::get('/profile/{user:lidnummer}', [UserController::class, 'showProfile'])->middleware('MustBeLoggedIn');
 // --------------------------------------------------------------------------------------------------------------------------------
+
+// <><><><>AQUATORY PROJECT ROUTES<><><><><>
 // MODERATOR RELATED ROUTES
-    Route::get('/beheerder', [UserController::class, 'showModPage'])->middleware('auth', 'MustBeAdmin');
-    Route::post('/opties-opslaan', [TableController::class, 'optiesOpslaan'])->middleware('MustBeAdmin', 'auth');
+    Route::get('/beheerder', [UserController::class, 'showModPage'])->middleware('auth', 'IsVerified', 'MustBeAdmin');
+    Route::post('/opties-opslaan', [TableController::class, 'optiesOpslaan'])->middleware('MustBeAdmin', 'auth', 'IsVerified');
+    Route::delete('/profiel/{user}', [TableController::class, 'deleteUser'])->middleware('auth', 'IsVerified', 'MustBeAdmin');
+    Route::post('/register', [UserController::class, 'register'])->middleware('auth', 'IsVerified', 'MustBeAdmin');
+    Route::get('/import-csv', [TableController::class, 'importCSV'])->middleware('auth', 'MustBeAdmin', 'IsVerified');
 
 // USER RELATED ROUTES
     Route::get('/', [UserController::class, 'showCorrectHomepage'])->name('login'); // The name method will mark this route as the route that will be recognized as the page where you will be send if you need to be logged in to visit a certain page.
-    Route::post('/register', [UserController::class, 'register'])->middleware('auth', 'MustBeAdmin');
     Route::post('/login', [UserController::class, 'login'])->middleware('guest');
     Route::post('/logout', [UserController::class, 'logout'])->middleware('MustBeLoggedIn', 'auth');
     Route::get('/visregistratie', [TableController::class, 'registratieFormulier'])->middleware('auth', 'IsVerified');
@@ -49,8 +53,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
     // Fetch and delete records from the DB routes:
     Route::get('/table-all', [TableController::class,'showTableAll'])->middleware('auth', 'IsVerified');
     Route::get('/table-user', [TableController::class,'showTableUser'])->middleware('auth', 'IsVerified');
-    Route::delete('/registratie/{registratie}', [TableController::class, 'delete'])->middleware('auth', 'IsVerified');
-    Route::delete('/registratieFromTableAll/{registratie}', [TableController::class, 'deleteFromTableAll'])->middleware('auth', 'IsVerified');
+    Route::delete('/registratie/{registratie}', [TableController::class, 'deleteRegpistratie'])->middleware('auth', 'IsVerified');
     // Password reset routes:
     Route::get('/forgot-password', [PasswordController::class, 'forgotPassword'])->name('password.request')->middleware('guest');
     Route::post('/forgot-password-post', [PasswordController::class, 'forgotPasswordPost'])->name('password.email')->middleware('guest');

@@ -29,11 +29,10 @@ use App\Http\Controllers\PasswordController;
 
 class UserController extends Controller
 {
-
     public function register(Request $request) {
         // validate the incoming request fields with rules
         $incomingFields = $request->validate([
-            'lidnummer' => ['required'],
+            'lidnummer' => ['required', Rule::unique('users', 'lidnummer')],
             'naam' => ['required', 'min:2', 'max:20'],
             'achternaam' => ['required', 'min:2', 'max:20'],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
@@ -89,25 +88,25 @@ class UserController extends Controller
     }
 
     public function showModPage(User $users, Options $options, Registratie $registraties) {
+        //checks if the user is a moderator else redirects back to homepage
+        // if(session() === NULL || auth()->user()->isAdmin == false) {
+        //     return redirect('/');
+        // }
         // oude manier van data fetchen:
-        // $users = User::with('registraties')->get();
-        // $registraties = Registratie::with('gebruiker')->paginate(5);
-        // $options = DB::table('options')->paginate(2);
+        $users = User::with('registraties')->paginate(5);
+        $registraties = Registratie::with('gebruiker')->paginate(5);
+        $options = DB::table('options')->paginate(5);
 
-        if(session() === NULL) {
-            return redirect('/');
-        }
         return view('/beheerder', [
             //nieuwe manier van data fetchen:
-            'users' => User::with('registraties')->paginate(1),
-            'registraties' => Registratie::with('gebruiker')->paginate(5),
-            'options' => Options::paginate(5)
+            // 'users' => User::with('registraties')->paginate(5),
+            // 'registraties' => Registratie::with('gebruiker')->paginate(5),
+            // 'options' => Options::paginate(5)
 
             // oude manier van data fetchen
-            // 'users' => $users,
-            // 'options' => $options
-            // 'registraties' => $registraties,
-
+            'users' => $users,
+            'options' => $options,
+            'registraties' => $registraties,
         ]);
     }
 
@@ -167,7 +166,7 @@ class UserController extends Controller
 
             $user->save();
 
-            // sends password expired email
+            // sends password expired email with the new password used for verifying email again
             Mail::to($user->email)->send(new ExpiredPasswordEmail(['password' => $user->password, 'naam' => $user->naam . $user->achternaam]));
             return redirect('/')->with('error', 'Uw wachtwoord is verlopen. Er is een email naar u verstuurd met een willekeurig wachtwoord, waarmee u uw wachtwoord opnieuw in dient te stellen om de website te kunnen gebruiken.');
         }
@@ -176,7 +175,6 @@ class UserController extends Controller
     public function login(Request $request, User $user) {
 
         // Check if either log in field is empty
-
         if($request['loginemail'] == NULL || $request['loginpassword'] == NULL ) {
             redirect('/')->with('error', 'Vul alle velden in om in te loggen');
         }
@@ -196,13 +194,11 @@ class UserController extends Controller
         if(auth()->attempt(['email' => $incomingFields['loginemail'], 'password' => $incomingFields['loginpassword']])) {
             $request->session()->regenerate();
 
+            // checks if the password is expired
             $this->expiredCheck($user);
-            // $registraties = 
-
             return redirect('/');
 
         }
         return redirect('/')->with('error','De ingevoerde referenties werden niet herkend in de database. Probeer het nogmaals of klik op "wachtwoord vergeten"');
-
     }
 }

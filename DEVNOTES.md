@@ -45,6 +45,5 @@ DONE:
 - Made password reset through email functionality
 - Forgot password functionality
 - Made the tables searchable and sortable
-- 
 
 

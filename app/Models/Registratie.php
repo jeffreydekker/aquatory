@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,14 +25,9 @@ class Registratie extends Model
         "mv",
         "groep",
         "jongen"
-
     ];
 
     public function gebruiker() {
         return $this->belongsTo(User::class, "user_id");
-    }
-
-    public function gebruikers() {
-        return $this->hasMany(User::class,"user_id", "user_id");
     }
 }

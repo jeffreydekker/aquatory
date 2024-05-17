@@ -36,21 +36,32 @@
                     <th onclick="sortTable(4)"><strong>AS</strong></th>
                     <th onclick="sortTable(5)"><strong>KV</strong></th>
                     <th onclick="sortTable(6)"><strong>Notitie</strong></th>
+                    <th onclick="sortTable(7)"><strong>Ondersoort</strong></th>
+                    <th onclick="sortTable(8)"><strong>M/V</strong></th>
+                    <th onclick="sortTable(9)"><strong>Aantal</strong></th>
+                    <th onclick="sortTable(10)"><strong>Groep</strong></th>
+                    <th onclick="sortTable(11)"><strong>Jongen</strong></th>
                 </tr>
             </thead>
-            
-                @foreach ($registraties as $registratie)
+            <tr>
+            @foreach ($registraties as $registratie)
                 <tr>
-                    <td> <a href="mailto:{{ $registratie->gebruiker->email }}">{{ $registratie->gebruiker->lidnummer }}</a></td>
+                    <td> @if ($registratie->gebruiker)<a href="mailto:{{ $registratie->gebruiker->email }}">{{ $registratie->gebruiker->lidnummer }}</a>@endif</td>
                     <td>{{ $registratie->geslachtsnaam }}</td>
                     <td>{{ $registratie->soortnaam }}</td>
                     <td>{{ $registratie->vangplaats }}</td>
                     <td>{{ $registratie->AS }}</td>
                     <td>{{ $registratie->KV }}</td>
                     <td>{{ $registratie->notitie }}</td>
+                    <td>{{ $registratie->ondersoort }}</td>
+                    <td>{{ $registratie->mv }}</td>
+                    <td>{{ $registratie->aantal }}</td>
+                    <td>{{ $registratie->groep }}</td>
+                    <td>{{ $registratie->jongen }}</td>
                 </tr>
             @endforeach
             {{ $registraties->links() }}
+            </tr>
         </table>
         <br>
 

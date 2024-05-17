@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Post;
 use App\Models\Registratie;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -49,11 +48,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function posts() {
-        return $this->hasMany(Post::class, 'user_id', 'id');
-    }
-
     public function registraties() {
         return $this->hasMany(Registratie::class, 'user_id', 'id');
+    }
+
+    public function posts() {
+        return $this->hasMany(Post::class, 'user_id');
     }
 }
