@@ -10,6 +10,7 @@ auth directive to determine wether the user is logged in or not. --}}
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta http-equiv="refresh" content="{{ config('session.lifetime') * 60 }}">
     <title>Poecilia Nederland</title>
+    <link rel="icon" type="image/x-icon" href="logo.jpeg">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
     <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -125,7 +126,7 @@ auth directive to determine wether the user is logged in or not. --}}
           XLSX.writeFile(wb, fileName); 
       }
 
-        // Search through table data
+      // Search through table data
       function myFunction() {
         // Declare variables
         var input, filter, table, tr, td, i, txtValue;
@@ -148,32 +149,58 @@ auth directive to determine wether the user is logged in or not. --}}
         }
       }
 
-        // Search through table data
-        function searchFunction() {
-          // Declare variables
-          var input, filter, table, tr, td, i, txtValue;
-          input = document.getElementById("searchInput");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("tableAll");
-          tr = table.getElementsByTagName("tr");
+      // Search through table data
+      function searchFunctionTableAll() {
+    // Declare variables
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tableAll");
+    tr = table.getElementsByTagName("tr");
 
-          // Loop through all table rows, and hide those who don't match the search query
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) { // start from 1 to skip table header
+        tr[i].style.display = "none"; // initially hide all rows
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ""; // show the row if match is found
+                    break; // stop checking other cells in the same row
+                }
             }
-          }
         }
+    }
+}
 
-        function sortTable(n) {
+function searchFunctionTableUser() {
+    // Declare variables
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tableUser");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 1; i < tr.length; i++) { // start from 1 to skip table header
+        tr[i].style.display = "none"; // initially hide all rows
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = ""; // show the row if match is found
+                    break; // stop checking other cells in the same row
+                }
+            }
+        }
+    }
+}
+
+        function sortTableUser(n) {
           var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-          table = document.getElementById("tableAll");
+          table = document.getElementById("tableUser");
           switching = true;
           //Set the sorting direction to ascending:
           dir = "asc"; 
@@ -226,6 +253,55 @@ auth directive to determine wether the user is logged in or not. --}}
               }
             }
           }
+
+    function sortAll(n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById("tableAll");
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = "asc"; 
+    // Make a loop that will continue until no switching has been done:
+    while (switching) {
+        // Start by saying: no switching is done:
+        switching = false;
+        rows = table.rows;
+        // Loop through all table rows (except the first, which contains table headers):
+        for (i = 1; i < (rows.length - 1); i++) {
+            // Start by saying there should be no switching:
+            shouldSwitch = false;
+            // Get the two elements you want to compare, one from current row and one from the next:
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            // Check if the two rows should switch place, based on the direction, asc or desc:
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            } else if (dir == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) {
+            // If a switch has been marked, make the switch and mark that a switch has been done:
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            // Each time a switch is done, increase this count by 1:
+            switchcount++;
+        } else {
+            // If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again:
+            if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+}
     </script> 
   </body>
 </html>

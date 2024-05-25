@@ -6,7 +6,7 @@
 
         <div class="action export-table" style="display: inline-block">
           <div style="display: inline-block;">
-              <input class="searchField" type="text" id="searchInput" onkeyup="searchFunction()" placeholder="       Zoek op naam" title="Zoek op naam ">     <i class="fas fa-search"></i>
+              <input class="searchField" type="text" id="searchInput" onkeyup="searchFunctionTableUser()" placeholder="       Zoek op naam" title="Zoek op naam ">     <i class="fas fa-search"></i>
           </div>
           <div style="display: inline-block; padding-left:100px" class="py-md-1 container--wide">
               
@@ -16,21 +16,22 @@
               <button>CSV</button>
           </div>
       </div>
-        <table class="table table-hover" id="tableAll">
+      <div style="overflow-x:auto;">
+        <table class="table table-hover" id="tableUser">
           <thead>
               <tr>
-                <th onclick="sortTable(0)"><strong>Aangemaakt</strong></th>
-                <th onclick="sortTable(1)"><strong>Geslacht</strong></th>
-                <th onclick="sortTable(2)"><strong>Soort</strong></th>
-                <th onclick="sortTable(3)"><strong>Vangplaats</strong></th>
-                <th onclick="sortTable(4)"><strong>AS</strong></th>
-                <th onclick="sortTable(5)"><strong>KV</strong></th>
-                <th onclick="sortTable(6)"><strong>Notitie</strong></th>
-                <th onclick="sortTable(7)"><strong>Ondersoort</strong></th>
-                <th onclick="sortTable(8)"><strong>M/V</strong></th>
-                <th onclick="sortTable(9)"><strong>Aantal</strong></th>
-                <th onclick="sortTable(10)"><strong>Groep</strong></th>
-                <th onclick="sortTable(11)"><strong>Jongen</strong></th>
+                <th onclick="sortTableUser(0)"><strong>Aangemaakt</strong></th>
+                <th onclick="sortTableUser(1)"><strong>Geslacht</strong></th>
+                <th onclick="sortTableUser(2)"><strong>Soort</strong></th>
+                <th onclick="sortTableUser(3)"><strong>Vangplaats</strong></th>
+                <th onclick="sortTableUser(4)"><strong>AS</strong></th>
+                <th onclick="sortTableUser(5)"><strong>KV</strong></th>
+                <th onclick="sortTableUser(6)"><strong>Notitie</strong></th>
+                <th onclick="sortTableUser(7)"><strong>Ondersoort</strong></th>
+                <th onclick="sortTableUser(8)"><strong>M/V</strong></th>
+                <th onclick="sortTableUser(9)"><strong>Aantal</strong></th>
+                <th onclick="sortTableUser(10)"><strong>Groep</strong></th>
+                <th onclick="sortTableUser(11)"><strong>Jongen</strong></th>
                 <th><strong>Delete</strong></th>
               </tr>
           </thead>
@@ -61,13 +62,15 @@
           @endforeach
           {{ $registraties->links() }}
           
-    </table>
+        </table>
+      </div>
+
     
   </div>
 
 
   <div class="container py-md-5 container--wide">
-    <h2>
+    {{-- <h2>
       <img class="avatar-small" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128" /> {{ $username }}
       <form class="ml-2 d-inline" action="#" method="POST">
         <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
@@ -79,12 +82,12 @@
       <a href="#" class="profile-nav-link nav-item nav-link active">Registraties: {{ $registraties->count() }} </a>
       <a href="#" class="profile-nav-link nav-item nav-link">Volgers: 3</a>
       <a href="#" class="profile-nav-link nav-item nav-link">Volgend: 2</a>
-    </div>
+    </div> --}}
 
     <div class="list-group">
         @foreach ($registraties as $registratie)
         <a href="/registratie/{{ $registratie->id }}" class="list-group-item list-group-item-action">
-            <img class="avatar-tiny" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128" />
+            {{-- <img class="avatar-tiny" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128" /> --}}
             <strong>{{ $registratie->soortnaam }}</strong> on {{ $registratie->created_at->format('j-n-Y') }}
           </a>
         @endforeach

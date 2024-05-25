@@ -108,7 +108,7 @@
             {{-- @endcan --}}
         </tr>
     @endforeach
-    {{ $users->links() }}
+    {{ $users->links(data: ['scrollTo' => false]) }}
     </tr>
 </table>
 
@@ -166,7 +166,7 @@
           <td>{{ $registratie->KV }}</td>
       </tr>
   @endforeach
-  {{ $registraties->links() }}
+  {{ $registraties->links(data: ['scrollTo' => false]) }}
   </tr>
 </table>
       

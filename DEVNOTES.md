@@ -2,7 +2,7 @@
 
 Summary:
 The job is to make a registration database for a fishing guild.
-The users ought to be able to log in, log out and register their fish and delete them when they don't have them anymore. The administator needs to be able to create and delete users in the database. There needs to be an authentication feature that automatically sends the new users an email to change their password. Each member needs to be able to register their own fish records and be able to see them in their own profile workplace. Each member also needs to be able to see an overview of all the records of all members. The admin(s) can also delete all posts by all users. 
+The users ought to be able to log in, log out and register their fish and delete them when they don't have them anymore. The administator needs to be able to create and delete users in the database. There needs to be an authentication feature that automatically sends the new users an email to change their password. Each member needs to be able to register their own fish records and be able to see them in their own profile workplace. Each member also needs to be able to see an overview of all the records of all members. The admin(s) can also delete all posts by all users.
 
 -------ROLES-------
 ADMIN:
@@ -32,18 +32,17 @@ TO DO:
 -   import existing excel table into DB
 -   streamlined profile with table of own registrations, statistics
     and profile options (edit/delete account) + registration pages
--   Put website on VPS and deliver final product upon payment
 
 DONE:
 - Website styling
 - Make new migration for a new schema called "Visregistratie"
 - Fish migration now has the following columns: id (foreignId from User migration), lidnr, geslachtsnaam, soortnaam, vangplaats, AS    (aquariumstam), KV (kweekvorm) and lastly a note column.
 - Made authentication functionality
-- Made admin controller page 
-- Joined 2 tables so data from 2 separate tables displays on URL.
+- Made admin controller page functions and tables
+- Joined 2 tables so data from 2 separate tables displays on the URL.
 - Admin is the only one who can add options to the registrations
 - Made password reset through email functionality
 - Forgot password functionality
-- Made the tables searchable and sortable
+- Made the tables searchable and sortable -> bug
 
 

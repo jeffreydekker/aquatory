@@ -76,17 +76,6 @@ class UserController extends Controller
         }
     }
 
-    public function profiel(User $user) {
-        // redirects to homepage of the app with the correct header
-        if(session() === NULL) {
-            return redirect('/');
-        }
-        return view('table-user', [
-            'username' => $user->naam . " " . $user->achternaam, 
-            'registraties' => Registratie::with('gebruiker')->paginate(5),
-            'posts' => $user->posts()->latest()->get()]);
-    }
-
     public function showModPage(User $users, Options $options, Registratie $registraties) {
         //checks if the user is a moderator else redirects back to homepage
         // if(session() === NULL || auth()->user()->isAdmin == false) {
@@ -120,9 +109,31 @@ class UserController extends Controller
         return redirect('/')->with('success','You are logged out');
     }
 
-    public function showTableAll(User $user, Registratie $registraties) {
-        
-        return view('table-all', compact('registraties'));
+    public function showTableAll() {
+        // redirects to homepage of the app with the correct header
+        if(session() === NULL) {
+            return redirect('/');
+        }
+
+        $registraties = Registratie::paginate(5);
+
+        return view('table-all', [
+            'registraties' => $registraties
+        ]);
+    }
+
+    public function profiel(User $user) {
+        // redirects to homepage of the app with the correct header
+        if(session() === NULL) {
+            return redirect('/');
+        }
+
+        $registraties = $user->registraties()->paginate(5);
+
+        return view('table-user', [
+            'username' => $user->naam . " " . $user->achternaam, 
+            'registraties' => $registraties,
+            'posts' => $user->posts()->latest()->get()]);
     }
 
     public function viewSingleRegistratie (Registratie $registraties) {

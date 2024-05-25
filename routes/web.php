@@ -51,9 +51,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
     Route::get('/profiel/{user:lidnummer}', [UserController::class, 'profiel'])->middleware('auth');
     Route::get('/registratie/{registratie}', [UserController::class, 'viewSingleRegistratie'])->middleware('auth');
     // Fetch and delete records from the DB routes:
-    Route::get('/table-all', [TableController::class,'showTableAll'])->middleware('auth', 'IsVerified');
-    Route::get('/table-user', [TableController::class,'showTableUser'])->middleware('auth', 'IsVerified');
-    Route::delete('/registratie/{registratie}', [TableController::class, 'deleteRegpistratie'])->middleware('auth', 'IsVerified');
+
+    Route::get('/table-all', [UserController::class,'showTableAll'])->middleware('auth', 'IsVerified');
+
+    Route::delete('/registratie/{registratie}', [TableController::class, 'deleteRegistratie'])->middleware('auth', 'IsVerified');
     // Password reset routes:
     Route::get('/forgot-password', [PasswordController::class, 'forgotPassword'])->name('password.request')->middleware('guest');
     Route::post('/forgot-password-post', [PasswordController::class, 'forgotPasswordPost'])->name('password.email')->middleware('guest');
