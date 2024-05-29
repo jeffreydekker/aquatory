@@ -110,7 +110,7 @@
     @endforeach
     {{ $users->links(data: ['scrollTo' => false]) }}
     </tr>
-</table>
+  </table>
 
   {{-- Send email to all users --}}
   <a href="mailto:@foreach ($users as $user)
@@ -118,27 +118,34 @@
   <br><br>
 
 {{-- Lijst opties --}}
-<table class="table table-striped table-bordered table-hover">
+<table class="table table-striped table-bordered table-hover" id="options">
   <strong>Lijst van opties:</strong>
   <br><br>
   <thead class="thead-dark">
       <tr>
-          <td><strong>Geslachtsnaam</strong></td>
-          <td><strong>Soortnaam</strong></td>
-          <td><strong>Vangplaats</strong></td>
+          <th><strong>Geslachtsnaam</strong></th>
+          <th><strong>Soortnaam</strong></th>
+          <th><strong>Vangplaats</strong></th>
       </tr>
   </thead>
-  <tr>
+  <tbody id="table-data">
+    
       @foreach ($options as $option)
       <tr>
           <td> {{ $option->geslachtsnaam }}</td>
           <td> {{ $option->soortnaam }}</td>
           <td> {{ $option->vangplaats }}</td>
       </tr>
-  @endforeach
-  {{ $options->links() }}
+    @endforeach
+    
+    <tr>
+      <td colspan="3">
+          {{ $options->links() }}
+      </td>
   </tr>
+  </tbody>
 </table>
+
 
 {{-- Lijst registraties --}}
 <table class="table table-striped table-bordered table-hover">

@@ -31,11 +31,6 @@ class TableController extends Controller
         ]);
     }
 
-    // public function showTableUser(User $user) {
-
-    //     return view('table-user', ['username' => $user->username, 'registraties' => $user->registraties()->get()]);
-    // }
-
     public function registratieOpslaan(Request $request) {
         // validate the incoming request
         $incomingFields = $request->validate([

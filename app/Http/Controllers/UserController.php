@@ -84,18 +84,21 @@ class UserController extends Controller
         // oude manier van data fetchen:
         $users = User::with('registraties')->paginate(5);
         $registraties = Registratie::with('gebruiker')->paginate(5);
-        $options = DB::table('options')->paginate(5);
+        $options = DB::table('options')->paginate(5)->fragment('options');
 
+        // if (request()->ajax()) {
+        //     return view('beheerder', [
+        //         'users' => $users,
+        //         'options' => $options,
+        //         'registraties' => $registraties
+        //     ])
+        //     ->render();
+        // }
+        
         return view('/beheerder', [
-            //nieuwe manier van data fetchen:
-            // 'users' => User::with('registraties')->paginate(5),
-            // 'registraties' => Registratie::with('gebruiker')->paginate(5),
-            // 'options' => Options::paginate(5)
-
-            // oude manier van data fetchen
             'users' => $users,
             'options' => $options,
-            'registraties' => $registraties,
+            'registraties' => $registraties
         ]);
     }
 
@@ -166,6 +169,12 @@ class UserController extends Controller
     
             return redirect()->back()->with('success', 'Password updated successfully.');
     }
+
+    public function show($id)
+{
+    $registration = Registratie::findOrFail($id);
+    return view('registrations.show', compact('registration'));
+}
 
     public function expiredCheck(User $user) {
         $startDay = Carbon::parse($user->password_updated_at);

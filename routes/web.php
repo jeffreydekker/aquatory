@@ -50,6 +50,14 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
     // based on ID. If we want to specify another column to base around the lookup in the model we specify it with ":[column name]"
     Route::get('/profiel/{user:lidnummer}', [UserController::class, 'profiel'])->middleware('auth');
     Route::get('/registratie/{registratie}', [UserController::class, 'viewSingleRegistratie'])->middleware('auth');
+
+
+    //---------
+    Route::get('/registrations/{id}', [UserController::class, 'show'])->name('registratie.show');
+    //---------
+
+
+
     // Fetch and delete records from the DB routes:
 
     Route::get('/table-all', [UserController::class,'showTableAll'])->middleware('auth', 'IsVerified');
@@ -63,6 +71,8 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
     // first password reset
     Route::get('/password-reset-from-profile', [UserController::class, 'profilePasswordResetForm']);
     Route::post('/password-reset-from-profile', [UserController::class, 'verificationPasswordResetPost']);
+
+    
     // Verify user via email routes:
     // sends verification email to new user
     Route::get('/email/verify', function () {

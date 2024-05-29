@@ -3,7 +3,6 @@
   <div class="container py-md-5 container--wide">
     <h1>Lijst registraties van {{ $username }}</h1>
         {{-- Lijst eigen registraties --}}
-
         <div class="action export-table" style="display: inline-block">
           <div style="display: inline-block;">
               <input class="searchField" type="text" id="searchInput" onkeyup="searchFunctionTableUser()" placeholder="       Zoek op naam" title="Zoek op naam ">     <i class="fas fa-search"></i>
@@ -17,7 +16,7 @@
           </div>
       </div>
       <div style="overflow-x:auto;">
-        <table class="table table-hover" id="tableUser">
+        <table class="table table-hover" id="tableUser" style="cursor: pointer">
           <thead>
               <tr>
                 <th onclick="sortTableUser(0)"><strong>Aangemaakt</strong></th>
@@ -35,9 +34,10 @@
                 <th><strong>Delete</strong></th>
               </tr>
           </thead>
+
           @foreach ($registraties as $registratie)
-          <tr>
-            <td>{{ $registratie->created_at->format('j-n-Y') }}</td>
+            <tr class="clickable-row" data-href="{{ route('registratie.show', $registratie->id) }}">
+              <td>{{ $registratie->created_at->format('j-n-Y') }}</td>
               <td>{{ $registratie->geslachtsnaam }}</td>
               <td>{{ $registratie->soortnaam }}</td>
               <td>{{ $registratie->vangplaats }}</td>
@@ -59,31 +59,15 @@
               </td>
               @endcan
           </tr>
+
+
           @endforeach
           {{ $registraties->links() }}
-          
         </table>
-      </div>
-
-    
+      </div> 
   </div>
 
-
   <div class="container py-md-5 container--wide">
-    {{-- <h2>
-      <img class="avatar-small" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128" /> {{ $username }}
-      <form class="ml-2 d-inline" action="#" method="POST">
-        <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
-        <!-- <button class="btn btn-danger btn-sm">Stop Following <i class="fas fa-user-times"></i></button> -->
-      </form>
-    </h2>
-
-    <div class="profile-nav nav nav-tabs pt-2 mb-4">
-      <a href="#" class="profile-nav-link nav-item nav-link active">Registraties: {{ $registraties->count() }} </a>
-      <a href="#" class="profile-nav-link nav-item nav-link">Volgers: 3</a>
-      <a href="#" class="profile-nav-link nav-item nav-link">Volgend: 2</a>
-    </div> --}}
-
     <div class="list-group">
         @foreach ($registraties as $registratie)
         <a href="/registratie/{{ $registratie->id }}" class="list-group-item list-group-item-action">
