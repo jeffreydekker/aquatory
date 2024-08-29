@@ -34,10 +34,10 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 // <><><><>AQUATORY PROJECT ROUTES<><><><><>
 // MODERATOR RELATED ROUTES
-    Route::get('/beheerder', [UserController::class, 'showModPage'])->middleware('IsVerified', 'MustBeAdmin', 'auth');
+    Route::get('/beheerder', [UserController::class, 'showModPage']);
     Route::post('/opties-opslaan', [TableController::class, 'optiesOpslaan'])->middleware('MustBeAdmin', 'auth', 'IsVerified');
     Route::delete('/profiel/{user}', [TableController::class, 'deleteUser'])->middleware('auth', 'IsVerified', 'MustBeAdmin');
-    Route::post('/register', [UserController::class, 'register'])->middleware('isVerified', 'auth', 'MustBeAdmin');
+    Route::post('/register', [UserController::class, 'register']);
     Route::get('/import-csv', [TableController::class, 'importCSV'])->middleware('auth', 'MustBeAdmin', 'IsVerified');
     Route::delete('/registratieviabeheerder/{registratie', [UserController::class, 'modDeleteSingleRegistratie'])->middleware('auth', 'IsVerified', 'MustBeAdmin', 'can:delete,registratie')->name('beheerder.registraties');
 
